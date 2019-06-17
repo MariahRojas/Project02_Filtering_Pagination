@@ -17,9 +17,10 @@ FSJS project 2 - List Filter and Pagination
    scoped to that function.
 ***/
 
+const listItems = document.querySelectorAll(".student-item"); // Create a variable to store the student list item elements in the student list. 
+let itemsPerPage = 10; // Create a variable to store the number of items to show on each “page”, which for this project, is 10.
 
-
-
+console.log(listItems);
 /*** 
    Create the `showPage` function to hide all of the items in the 
    list except for the ten you want to show.
@@ -35,6 +36,19 @@ FSJS project 2 - List Filter and Pagination
        "invoke" the function 
 ***/
 
+const showPage = (list, page) => {
+   let startIndex = (page * itemsPerPage) - itemsPerPage;
+   let endIndex = page * itemsPerPage;
+   for (let index = 0; index < list.length; index++) {
+      if (index <= startIndex && index >= endIndex) {
+         list[index].style.dislay = "none";
+      } else {
+         list[index].style.display = "block";
+      }
+   }
+}
+
+showPage(listItems, 1);
 
 
 
