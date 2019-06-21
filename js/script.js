@@ -19,7 +19,7 @@ const showPage = (list, page) => {                          // this function hid
       if (index >= startIndex && index < endIndex) {        // this if statement will give me the number of items i want on the page.
          list[index].style.display = "block";               // block will keep items i want on the page
       } else {
-         list[index].style.display = "none";                // none will hide the items i dont want on the specifc page
+         list[index].style.display = "none";                // none will hide the items i dont want on the specifc page   
       }
    }
 } 
