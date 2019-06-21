@@ -22,7 +22,7 @@ const showPage = (list, page) => {                          // this function hid
          list[index].style.display = "none";                // none will hide the items i dont want on the specifc page
       }
    }
-}
+} 
  
 showPage(listItems, 1);                                     // call showPage() carries the parameters list and page. `list` will be the desired variable that carries a list. and page will be the desired page number. 
 
