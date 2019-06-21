@@ -7,7 +7,8 @@ FSJS project 2 - List Filter and Pagination
 
 
 const listItems = document.querySelectorAll(".student-item"); // stores the student list item elements in the student list. 
-const itemsPerPage = 10;                                        // stores the number of items to show on each “page”
+const itemsPerPage = 10;                                      // stores the number of items to show on each “page”
+
 
 //console.log(listItems);
 
@@ -28,133 +29,40 @@ showPage(listItems, 1);                                     // call showPage() c
 
 
 const appendPageLinks = ( list ) => {
-   /*
-   1. Determine how many pages are needed for the list by dividing the
-   total number of list items by the max number of items per page */
-      const totalPages =  Math.ceil(list.length / itemsPerPage);
-   /*
-   2. Create a div, give it the “pagination” class, and append it to the .page div */
-      const div = document.createElement('div');
-      const pageDiv = document.querySelector('.page');
+      const totalPages =  Math.ceil(list.length / itemsPerPage);  // this determines how many pages are needed by dividing the total number list items by max number per page.
+      const div = document.createElement('div');                  // this creates a div. 
+      const pageDiv = document.querySelector('.page');            // this selects the page class so that we can append the div to it 
+      div.className = "pagination";                               // this give the div the pagination class
+        pageDiv.appendChild(div);                                 // this finally appends the div to the page class 
+      const ul = document.createElement('ul');                    // this creates the ul
+      div.appendChild(ul);                                        // this stores the pagination links by appending ul to the div
       
+      for (let i = 1; i <= totalPages; i++) {                     // this for loop adds li and a tags with the page number for every page
+         let li = document.createElement('li');                   // this creates the li element
+         let a = document.createElement('a');                     // this creates the a element
+         li.appendChild(a);                                       // appends a to li so that all li elements have an a element 
+         ul.appendChild(li);                                      // finally we append li to the ul element 
+         a.setAttribute('class','pagination');                    // this sets the a attribute to a class pagination 
+         a.innerText = i;                                         // i represents the page number. this will be diplayed inside the button
 
-      div.className = "pagination";  //might crash
-      //div.setAttribute('class', 'pagination');      
+         if(i == 1)                                               // in this conditional statement, if i is equal to 1 then the default page will show the first button highlighted. 
+         {
+            a.setAttribute('class', "pagination active")
+         } 
 
+         a.addEventListener("click", (e) => {                              // this adds an event listerner to each tag
+            const whenClicked = e.target;                                  // this represents the a link that was clicked. 
+            const paginatLinkz = document.querySelectorAll('.pagination'); // this finds the paginaton class and assigns it to a variable 
+            showPage(list, i);                                             // when clicke the showPage function will display the appropriate page
 
-      pageDiv.appendChild(div); 
-
-   /*
-   3. Add a ul to the “pagination” div to store the pagination links */
-      const ul = document.createElement('ul');       
-      div.appendChild(ul); 
-   
-   /*
-   4. for every page, add li and a tags with the page number text */ 
-      for (let i = 1; i <= totalPages; i++) {
-         let li = document.createElement('li');
-         let a = document.createElement('a');
-   //Each LI element should contain an A element
-         li.appendChild(a);
-         ul.appendChild(li);  
-
- /*  
-   Each LI element should contain an A element with an href attribute of #,
-   and text set to the page number each link will show. First link is 1. Second link is 2. And so on. */
-         a.setAttribute('class','pagination'); //test 
-         a.innerText = i;
-  /*
-   5. Add an event listener to each a tag. When they are clicked
-   call the showPage function to display the appropriate page */
-         a.addEventListener("click", (e) => {
-            showPage(list, i);     // test
-
-            const whenClicked = e.target;
-            const paginatLinkz = document.querySelectorAll('.pagination'); //test
-  /*
-   6. Loop over pagination links to remove active class from all links */
-            for(let i = 0; i < paginatLinkz; i++) {
-               let link = paginatLinkz[i];
-
-   /*
-   7. Add the active class to the link that was just clicked. You can identify that
-   clicked link using event.target
-   */
-            
+            for(let j = 0; j < paginatLinkz.length; j++) {                 // this for loop loops over pagination links to remove active class from all links 
+               let linkz = paginatLinkz[j];                                // this variable will represent the pagination class we selected and the index (if removed all buttons will stay active after being clicked)
+               linkz.setAttribute('class', 'pagination');                  // sets the attribute for the variable to an inactive pagination class 
             }
-            
+            whenClicked.setAttribute('class', "pagination active");        // when clicked, this button will be active.  
          });  
-
-       
-      }      
-   }
-
+        }
+      }
+   
    appendPageLinks(listItems);
         
-  
-
-
-
-
- 
-
-
-/*
-const appendPageLinks = ( list ) => {                       // This function generates, appends, and adds fuctionality to the pagination buttons
-   let totalPages =  Math.ceil(list.length / itemsPerPage); // this determines how many pages are needed for the list by dividing the total number of list items by the max number of items per page.
-  
-   let div = document.createElement('div');                 // I created a div element.
-   div.style.display = "pagination";                        // This gives it the "pagination" class.
-   document.querySelector(".page").appendChild(div);        // The div appends to the page class. 
- 
-   let ul = document.createElement('ul');                   // I created a UL element.
-   div.appendChild(ul);                                     // This adds UL to my "pagination" div.
-
-   for (let i = 1; i <= totalPages; i++) {                  // this for loop adds li and a tags with the page number text for every page.
-      let li =  document.createElement('li');               // I created the li element.
-      let a = document.createElemtent('a');                 // I created the a element.
-
-      li.appendChild(a);                                    // This adds the a element to the li element
-      ul.appendChild(li);                                   // This adds the li element to ul element.
-
-      //Each LI element should contain an A element with an href attribute of #, 
-      a.textContent = `${i}`;
-      a.href = "#";
-   //Add the active class name to the first pagination link initially.
-      a.className = 'active';
-   }
-
-
-
-
-
-
-  // 5. Add an event listener to each a tag. When they are clicked
-  // call the showPage function to display the appropriate page
-      ul.addEventListener('click', (e) => {
-         
-         for(let j = 1; j <= pageClass; j++){
-            if (li[j].className === 'active'){
-               li[j].className = 'inactive';
-             } else {
-               li[j].className = 'active';
-             }            
-         }
-
-      showPage();
-            
-      });
-
-   
-// 6. Loop over pagination links to remove active class from all links
-
-//look up event listeners and how to add the for multiple links 
-
-
-
-  // 7. Add the active class to the link that was just clicked. You can identify that
-   //clicked link using event.target
-  // a.target.className.appendChild(pageClass.className);
-
-
-*/
